@@ -8,8 +8,8 @@ import ReactDOM from 'react-dom/client';
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: "us-west-1_ShhlmS5yI",
-      userPoolClientId: "2n29qv9ncvuo0flo3htjf8sd6o"
+      userPoolId: import.meta.env.VITE_AWS_USERPOOL_ID,
+      userPoolClientId: import.meta.env.VITE_AWS_USERPOOL_CLIENT_ID
     }
   },
   Storage: {

@@ -37,7 +37,7 @@ const Login = () => {
           const session = await fetchAuthSession();
           const userAttributes = await fetchUserAttributes();
     
-          const response = await fetch('https://77exw9tcke.execute-api.us-west-1.amazonaws.com/dev/users', {
+          const response = await fetch(import.meta.env.VITE_AWS_INVOKE_URL_DYNAMODB, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
