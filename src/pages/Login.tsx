@@ -17,8 +17,11 @@ const Login = () => {
                 alert("Please enter email and password")
             }
 
-            const user = signIn({username: email, password});
-            await saveUserToDynamoDB();
+            const user = await signIn({username: email, password});
+
+            if(user){
+                await saveUserToDynamoDB();
+            }
 
             navigate("/home");
         }
@@ -27,6 +30,14 @@ const Login = () => {
         }
     }
 
+/*************  ✨ Windsurf Command ⭐  *************/
+    /**
+     * Sign out the current user.
+     * 
+     * Calls the Amplify signOut function to sign out the current user.
+     * After successful sign out, the user is redirected to the login page.
+     */
+/*******  a65fe7ea-0fe9-459d-9810-c1a126abebfb  *******/
     const handleSignOut = async () => {
         await signOut();
     }

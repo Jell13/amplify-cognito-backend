@@ -9,8 +9,8 @@ Amplify.configure({
   Auth: {
     Cognito: {
       userPoolId: import.meta.env.VITE_AWS_USERPOOL_ID,
-      userPoolClientId: import.meta.env.VITE_AWS_USERPOOL_CLIENT_ID
-    }
+      userPoolClientId: import.meta.env.VITE_AWS_USERPOOL_CLIENT_ID,
+    },
   },
   Storage: {
     S3: {
