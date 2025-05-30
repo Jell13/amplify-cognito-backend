@@ -19,63 +19,6 @@ function App() {
 
   const [progress, setProgress] = useState(0);
 
-  
-  useEffect(() => {
-    console.log(progress);
-  }, [])
-
-  const s3Client = new S3Client({
-    region: 'us-west-1',
-    credentials: fromCognitoIdentityPool({
-      clientConfig: { region: 'us-west-1' },
-      identityPoolId: "us-west-1:9677e4fe-6337-4e1a-ae50-1441e43e8a13"
-    })
-  });
-
-  const handleSignIn = async (e : React.FormEvent) => {
-    e.preventDefault();
-    try{
-      const user = await signIn({username: email, password});
-      console.log("Signed in user: ", user);
-      setUser(user);
-      await saveUserToDynamoDB();
-
-      
-    } catch (error){
-      console.log("Error: ", error);
-    }
-  }
-
-  const saveUserToDynamoDB = async () => {
-    try{
-
-      const session = await fetchAuthSession();
-      const userAttributes = await fetchUserAttributes();
-
-      const response = await fetch('https://77exw9tcke.execute-api.us-west-1.amazonaws.com/dev/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-
-        },
-        body: JSON.stringify({
-          userId: userAttributes.sub,
-          email: userAttributes.email,
-          name: userAttributes.name,
-        })
-      })
-
-      const data = await response.json();
-      console.log(data);
-
-      console.log("Session: ", session);
-      console.log("User Attributes: ", userAttributes);     
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
-
   const getAuthenticatedS3Client = async () => {
     try {
       const session = await fetchAuthSession();
@@ -203,36 +146,6 @@ function App() {
       console.error("Processing error:", error);
     }
   };
-
-  const handleSignUp = async (e : React.FormEvent) => {
-
-    e.preventDefault();
-    try{
-      const {nextStep: signUpNextStep} = await signUp({username: email, password, options:{
-        userAttributes:{
-          name
-        }}
-      })
-
-      console.log("Successful Sign Up of user: ", user);
-      setUser(user);
-    }
-    catch (error){
-      console.log("Error: ", error);
-    }
-  }
-
-  const handleSignOut = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try{
-      await signOut();
-      setUser(null);
-      console.log("user Signed Out");
-    }
-    catch (error){
-      console.log("Error: ", error);
-    }
-  }
   
   const uploadImage = async () => {
     if(!file) return;
